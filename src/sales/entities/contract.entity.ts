@@ -1,8 +1,8 @@
 export interface Contract {
     id: number;
-    clientName: string;
-    carVin: string;
-    carModelVersion: string;
+    client_name: string;
+    car_vin: string;
+    car_model_version: string;
     manager: string;
     contract_number: string;
     signing_date: Date;

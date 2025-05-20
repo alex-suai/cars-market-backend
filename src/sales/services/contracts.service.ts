@@ -13,9 +13,9 @@ export class ContractsService {
         return `
             SELECT 
                 ct.*,
-                car.vin as carVin,
-                c.name as clientName,
-                mv.name as carModelVersion,
+                car.vin as car_vin,
+                c.name as client_name,
+                mv.name as car_model_version,
                 m.name as manager
             FROM contracts ct
             LEFT JOIN clients c ON ct.client_id = c.id

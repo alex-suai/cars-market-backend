@@ -1,6 +1,6 @@
 export interface Sale {
     id: number;
-    contractNumber: string;
+    contract_number: string;
     profit: number;
     tax_sum: number;
     discount_amount: number;

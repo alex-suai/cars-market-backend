@@ -1,5 +1,5 @@
 
-export class CreateContractDto {
+export interface CreateContractDto {
     clientId: number;
 
     carId: number;
