@@ -12,8 +12,6 @@ export interface CreateContractDto {
 
     cancellation_date?: Date;
 
-    total_amount: number;
-
     payment_method: 'cash' | 'credit' | 'leasing';
 
     status: 'signed' | 'canceled' | 'pending';

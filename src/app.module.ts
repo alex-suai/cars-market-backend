@@ -3,6 +3,7 @@ import { CarsModule } from './cars/cars.module';
 import { ClientsModule } from './clients/clients.module';
 import { SalesModule } from './sales/sales.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { EmployeesModule } from './employees/employees.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         options: '-c search_path=car_market'
       }
     }),
+    EmployeesModule,
   ],
 })
 export class AppModule {}

@@ -11,16 +11,8 @@ export class ClientsService {
 
     private getBaseQuery() {
         return `
-            SELECT 
-                c.*,
-                COALESCE(
-                    array_agg(ct.contract_number ORDER BY ct.contract_number) 
-                    FILTER (WHERE ct.contract_number IS NOT NULL),
-                    '{}'
-                ) AS "contractNumbers"
+            SELECT c.*
             FROM clients c
-            LEFT JOIN contracts ct ON c.id = ct.client_id
-            GROUP BY c.id
         `;
     }
 
@@ -46,9 +38,9 @@ export class ClientsService {
     async create(createClientDto: CreateClientDto): Promise<Client> {
         const query = `
             INSERT INTO clients
-                (name, surname, phone_number, email, sales_amount, total_expenses)
+                (name, surname, phone_number, email)
             VALUES 
-                ($1, $2, $3, $4, $5, $6)
+                ($1, $2, $3, $4)
             RETURNING id
         `;
 
@@ -56,13 +48,11 @@ export class ClientsService {
             createClientDto.name,
             createClientDto.surname || null,
             createClientDto.phone_number || null,
-            createClientDto.email,
-            createClientDto.sales_amount || 0,
-            createClientDto.total_expenses || 0
+            createClientDto.email
         ];
 
         const result = await this.dataSource.query(query, params);
-        return this.findOne(result) as Promise<Client>;
+        return this.findOne(result[0].id) as Promise<Client>;
     }
 
     // Обновить данные клиента
@@ -97,7 +87,7 @@ export class ClientsService {
         `;
 
         const result = await this.dataSource.query(query, params);
-        return this.findOne(result) as Promise<Client>;
+        return this.findOne(result[0][0].id) as Promise<Client>;
     }
 
     // Удалить клиента

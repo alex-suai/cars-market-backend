@@ -6,5 +6,4 @@ export interface Client {
     email: string;
     sales_amount: number;
     total_expences: number;
-    contractNumbers?: string[];
 }

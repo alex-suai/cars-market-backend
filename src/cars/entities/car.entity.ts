@@ -26,6 +26,7 @@ export interface Car {
     vin: string;
     model: string;
     model_version: string;
+    manufacturer: string;
     mileage: number;
     price: number;
     color: string;

@@ -4,4 +4,5 @@ export interface Sale {
     profit: number;
     tax_sum: number;
     discount_amount: number;
+    car_vin: string;
 }

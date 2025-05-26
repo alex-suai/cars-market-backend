@@ -18,6 +18,7 @@ export class CarsService {
                 car.vin,
                 m.name as model,
                 mv.name as model_version,
+                man.name as manufacturer,
                 car.mileage,
                 car.price,
                 car.color,
@@ -112,7 +113,7 @@ export class CarsService {
 
         const result = await this.dataSource.query(query, params);
 
-        return this.findOne(result);
+        return this.findOne(result[0].id);
     }
 
     async update(id: number, updateCarDto: UpdateCarDto): Promise<Car> {
@@ -127,8 +128,10 @@ export class CarsService {
         for (const [key, value] of Object.entries(updateCarDto)) {
             if (value !== undefined) {
                 const dbKey = key === 'modelVersionId' ? 'model_version_id' : key;
+                const paramValue = value instanceof Date ? value.toISOString() : value;
+
                 fields.push(`${dbKey} = $${paramIndex}`);
-                params.push(value);
+                params.push(paramValue);
                 paramIndex++;
             }
         }
@@ -137,17 +140,17 @@ export class CarsService {
             throw new Error('Нет полей для обновления');
         }
 
-        params.push(id);
-
         const query = `
             UPDATE cars
             SET ${fields.join(', ')}
             WHERE id = $${paramIndex}
             RETURNING id
         `;
+        
+        params.push(id)
 
         const result = await this.dataSource.query(query, params);
-        return this.findOne(result);
+        return this.findOne(result[0][0].id);
     }
 
     async remove(id: number): Promise<void> {

@@ -4,4 +4,5 @@ export interface Discount {
 	start_date: Date;
 	end_date: Date;
 	amount: number;
+	contract_numbers: string[]
 }

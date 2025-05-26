@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Param, Query, Patch, Delete, ParseIntPipe } from '@nestjs/common';
-import { ContractsService } from './services';
-import { CreateContractDto, UpdateContractDto } from './dto';
+import { ContractsService } from '../services';
+import { CreateContractDto, UpdateContractDto } from '../dto';
 
 @Controller('contracts')
 export class ContractsController {

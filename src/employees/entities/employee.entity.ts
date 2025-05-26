@@ -1,7 +1,6 @@
-export class Employees {
+export interface Employee {
     id: number;
     name: string;
     surname: string;
     profession: string;
-    contractNumbers: string[];
 }

@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Query, ParseIntPipe } from '@nestjs/common';
-import { SalesService } from './services';
+import { SalesService } from '../services';
 
 @Controller('sales')
 export class SalesController {

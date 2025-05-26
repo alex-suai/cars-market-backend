@@ -88,9 +88,9 @@ export class ContractsService {
             INSERT INTO contracts (
                 client_id, car_id, manager_id, 
                 contract_number, signing_date, cancellation_date,
-                total_amount, payment_method, status
+                payment_method, status
             ) VALUES (
-                $1, $2, $3, $4, $5, $6, $7, $8, $9
+                $1, $2, $3, $4, $5, $6, $7, $8
             ) RETURNING id
         `;
 
@@ -101,13 +101,12 @@ export class ContractsService {
             createContractDto.contract_number,
             createContractDto.signing_date,
             createContractDto.cancellation_date || null,
-            createContractDto.total_amount,
             createContractDto.payment_method,
             createContractDto.status
         ];
 
         const result = await this.dataSource.query(query, params);
-        return this.findOne(result) as Promise<Contract>;
+        return this.findOne(result[0].id) as Promise<Contract>;
     }
 
     async update(id: number, updateContractDto: UpdateContractDto): Promise<Contract> {
@@ -145,7 +144,7 @@ export class ContractsService {
         `;
 
         const result = await this.dataSource.query(query, params);
-        return this.findOne(result) as Promise<Contract>;
+        return this.findOne(result[0][0].id) as Promise<Contract>;
     }
 
     async remove(id: number): Promise<void> {
