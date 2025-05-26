@@ -9,33 +9,39 @@ export class DiscountsService {
             private readonly dataSource: DataSource,
         ) { }
     
-        private getBaseQuery() {
-            return `
-                SELECT 
-                    d.*,
-                    array_agg(c.contract_number) as contract_numbers
-                FROM discounts d
-                LEFT JOIN discount_sales ds ON ds.discount_id = d.id
-                LEFT JOIN contracts c ON c.id = ds.contract_id
-                GROUP BY d.id
+    private getBaseSelect(): string {
+        return `
+              SELECT 
+                d.*,
+                array_agg(c.contract_number) as contract_numbers
+              FROM discounts d
+              LEFT JOIN discount_sales ds ON ds.discount_id = d.id
+              LEFT JOIN contracts c ON c.id = ds.contract_id
             `;
-        }
-    
+    }
+
     async findAll(): Promise<Discount[]> {
-            return this.dataSource.query(this.getBaseQuery()) as Promise<Discount[]>
-        }
-    
+        const query = this.getBaseSelect() + `
+              GROUP BY d.id
+              ORDER BY d.id
+            `;
+        return this.dataSource.query(query) as Promise<Discount[]>;
+    }
+
     async findOne(id: number): Promise<Discount> {
-            const query = this.getBaseQuery() + ` WHERE d.id = $1 `;
-    
-            const [result] = await this.dataSource.query(query, [id]);
-    
-            if (!result) {
-                throw new NotFoundException(`Скидка с id ${id} не найден`);
-            }
-    
-        return result as Discount;
+        const query = this.getBaseSelect() + `
+              WHERE d.id = $1
+              GROUP BY d.id
+            `;
+        const [result] = await this.dataSource.query(query, [id]);
+
+        if (!result) {
+            throw new NotFoundException(`Скидка с id ${id} не найден`);
         }
+
+        return result as Discount;
+    }
+          
     
     async create(creatediscountDto: DiscountDto): Promise<Discount> {
         const query1 = `

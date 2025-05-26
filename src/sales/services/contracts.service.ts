@@ -111,6 +111,7 @@ export class ContractsService {
 
     async update(id: number, updateContractDto: UpdateContractDto): Promise<Contract> {
         // Проверяем существование контракта
+        console.log(id)
         await this.findOne(id);
 
         const fields = [];
@@ -144,6 +145,7 @@ export class ContractsService {
         `;
 
         const result = await this.dataSource.query(query, params);
+        console.log(result)
         return this.findOne(result[0][0].id) as Promise<Contract>;
     }
 

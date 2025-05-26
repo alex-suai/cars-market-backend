@@ -5,9 +5,9 @@ import {
     Body,
     Param,
     Query,
-    Put,
     Delete,
     ParseIntPipe,
+    Patch,
 } from '@nestjs/common';
 import { EmployeesService } from './employees.service';
 import { CreateEmployeeDto, UpdateEmployeeDto } from './dto';
@@ -35,7 +35,7 @@ export class EmployeesController {
         return this.employeesService.create(dto);
     }
 
-    @Put(':id')
+    @Patch(':id')
     async update(
         @Param('id', ParseIntPipe) id: number,
         @Body() dto: UpdateEmployeeDto,

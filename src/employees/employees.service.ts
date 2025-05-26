@@ -73,7 +73,7 @@ export class EmployeesService {
             ];
     
             const result = await this.dataSource.query(query, params);
-            return this.findOne(result) as Promise<Employee>;
+            return this.findOne(result[0].id) as Promise<Employee>;
         }
     
         async update(id: number, updateEmployeeDto: UpdateEmployeeDto): Promise<Employee> {
@@ -107,7 +107,7 @@ export class EmployeesService {
             `;
     
             const result = await this.dataSource.query(query, params);
-            return this.findOne(result[0][0]) as Promise<Employee>;
+            return this.findOne(result[0][0].id) as Promise<Employee>;
         }
     
         async remove(id: number): Promise<void> {
